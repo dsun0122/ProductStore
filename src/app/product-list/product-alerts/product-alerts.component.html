@@ -1,0 +1,7 @@
+<p>
+Component: app-product-alerts
+</p>
+
+<p *ngIf="product.price > 700"> 
+  <button (click)="alert.emit()">Notify Me</button>
+</p>

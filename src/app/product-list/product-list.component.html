@@ -1,0 +1,38 @@
+<p>Component: app-product-list</p>
+<h2>Products</h2>
+
+<!-- *ngFor is a structural directive. The asterisk denotes a structural directive. They modify the DOM -->
+<div *ngFor="let product of products; index as productId">
+
+    <h3>
+      <a [title]= "product.name + ' details'" [routerLink]="['/products', productId]">
+        {{ product.name }}
+      </a>
+    </h3>
+
+
+    <p *ngIf="product.description">
+      Description: {{ product.description }}
+    </p>
+
+    <h2 myError> Available Stores</h2>
+      <div *ngFor="let store of product.stores">
+          <p>{{ store.name }}</p>
+     </div>
+
+  <!-- share() is a method that exists in the component file-->
+  <button (click)="share()" [disabled]="false">
+    Share
+  </button>
+
+<!-- property binding. here you are setting the input for product in the app-product-alerts component-->
+<app-product-alerts [product]="product" (alert)="onNotify()"></app-product-alerts>
+
+</div>
+
+
+<!-- 
+Copyright Google LLC. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->
