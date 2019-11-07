@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router'
 import { products } from '../products';
 
 import { CartService } from '../shared/cart.service';
-import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-product-details',
@@ -27,7 +26,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   /**
-   * Note that typescript implicitly assigns the contructor argument to a property
+   * Note that typescript implicitly assigns the constructor argument to a property
    * 
    */
   constructor(private route: ActivatedRoute, private cartService: CartService) { }
@@ -45,8 +44,8 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart(product: object) {
-    this.cartService.addToCart(product);
-    console.log(product)
+    this.cartService.updateCart.next(this.cartService.addToCart(product));
+    //console.log(product)
     window.alert('Your product has been added to the cart!');
   }
 

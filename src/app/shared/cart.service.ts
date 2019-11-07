@@ -1,30 +1,46 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { ShippingPrice } from '../shared/shipping-price'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  items: Observable<any[]>;
-  updateItems = new BehaviorSubject({});
+  items = [];
+  updateCart = new BehaviorSubject(0);
 
-  constructor() { 
-    this.items = new Observable<any[]>();
+  constructor(private httpClient: HttpClient) {
+
   }
 
   addToCart(product: object) {
-    this.items.subscribe((value) => {
-      value.push(product);
+    return this.items.push(product);
+  }
+
+  getItems() {
+    return this.items;
+  }
+
+  clearCart() {
+    this.items = [];
+    return this.items;
+  }
+
+  //The http module returns observables that must be subscribed to.
+  getShippingPrices(): Observable<ShippingPrice[]> {
+      return this.httpClient.get<ShippingPrice[]>('../assets/shipping.json', {
+      responseType: "json"
     });
   }
-  
-  // getItems() {
-  //   return this.items;
-  // }
 
-  // clearCart() {
-  //   this.items = [];
-  //   return this.items;
-  // }
+  //You can the entire observable HttpReponse object with:
+  //Sometimes you want to read all the response information like headers, etc...
+  getShippingPricesResponse(): Observable<HttpResponse<ShippingPrice[]>> {
+    return this.httpClient.get<ShippingPrice[]>('../assets/shipping.json', {
+      observe: "response"
+    });
+  }
+
+  myAdd: (baseValue: number, increment: number) => number = function(x: number, y: number) { return x + y; };
 }

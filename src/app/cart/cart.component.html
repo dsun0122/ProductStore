@@ -1,0 +1,59 @@
+<div *ngIf="cartItems.length > 0; else emptyCart">
+  <table>
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+    </tr>
+    <tr *ngFor="let cartItem of cartItems">
+      <td>{{ cartItem.name }}</td>
+      <td>{{ cartItem.price | currency }}</td>
+    </tr>
+    <tr>
+      <th>Shipping</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Total Price</th>
+    </tr>
+    <tr *ngIf="getTotal() > 0">
+      <td></td>
+      <td>{{ getTotal() | currency }}</td>
+    </tr>
+  </table>
+
+  <div>
+    <select>
+      <option *ngFor="let shippingPrice of shippingPrices">{{ shippingPrice.type }} ({{ shippingPrice.price | currency }})</option>
+    </select>
+  </div>
+</div>
+<ng-template #emptyCart>
+  <div >
+    <h2>Your cart is empty!</h2>
+  </div>
+</ng-template>
+<div>
+  <h3>
+    <a [routerLink]="['/shipping']">Shipping Information</a> 
+  </h3>
+</div>
+
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+
+    <div>
+      <label for="name">
+        Name
+      </label>
+      <input id="name" type="text" formControlName="name">
+    </div>
+  
+    <div>
+      <label for="address">
+        Address
+      </label>
+      <input id="address" type="text" formControlName="address">
+    </div>
+  
+    <button class="button" type="submit">Purchase</button>
+  
+  </form>

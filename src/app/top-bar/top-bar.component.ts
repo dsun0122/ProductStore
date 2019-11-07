@@ -9,17 +9,27 @@ import { CartService } from '../shared/cart.service';
 })
 export class TopBarComponent implements OnInit, OnChanges {
 
-  @Input() numberOfItemsInCart: number;
+  numberOfItemsInCart: number;
 
   constructor(private cartService: CartService) { 
       
   }
 
   ngOnInit() {
+     this.cartService.updateCart.subscribe(res => {
+      console.log('onInit',res);
+
+       this.numberOfItemsInCart = res;
+     });
   }
 
   ngOnChanges() {
-    
+    // this.cartService.updateCart.subscribe(res => {
+    //   console.log('onChange',res);
+
+    //   this.numberOfItemsInCart = res
+
+    // });
   }
 
 }
